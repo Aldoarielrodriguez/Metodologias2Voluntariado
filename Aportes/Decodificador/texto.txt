@@ -1,0 +1,5 @@
+inicio programa()
+avanzar(5)
+girar(izquierda)
+girar(derecha)
+fin  

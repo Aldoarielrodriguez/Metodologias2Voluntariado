@@ -1,0 +1,97 @@
+Se puede usar el siguiente código para abrir un archivo seleccionado:
+
+GtkWidget *dialog;
+GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+gint res;
+
+dialog = gtk_file_chooser_dialog_new ("Open File",
+                                      parent_window,
+                                      action,
+                                      _("_Cancel"),
+                                      GTK_RESPONSE_CANCEL,
+                                      _("_Open"),
+                                      GTK_RESPONSE_ACCEPT,
+                                      NULL);
+
+res = gtk_dialog_run (GTK_DIALOG (dialog));
+if (res == GTK_RESPONSE_ACCEPT)
+  {
+    char *filename;
+    GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
+    filename = gtk_file_chooser_get_filename (chooser);
+    open_file (filename);
+    g_free (filename);
+  }
+
+gtk_widget_destroy (dialog);
+
+Este codigo se puede implementar para guardar el archivo:
+
+GtkWidget *dialog;
+GtkFileChooser *chooser;
+GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
+gint res;
+
+dialog = gtk_file_chooser_dialog_new ("Save File",
+                                      parent_window,
+                                      action,
+                                      _("_Cancel"),
+                                      GTK_RESPONSE_CANCEL,
+                                      _("_Save"),
+                                      GTK_RESPONSE_ACCEPT,
+                                      NULL);
+chooser = GTK_FILE_CHOOSER (dialog);
+
+gtk_file_chooser_set_do_overwrite_confirmation (chooser, TRUE);
+
+if (user_edited_a_new_document)
+  gtk_file_chooser_set_current_name (chooser,
+                                     _("Untitled document"));
+else
+  gtk_file_chooser_set_filename (chooser,
+                                 existing_filename);
+
+res = gtk_dialog_run (GTK_DIALOG (dialog));
+if (res == GTK_RESPONSE_ACCEPT)
+  {
+    char *filename;
+
+    filename = gtk_file_chooser_get_filename (chooser);
+    save_to_file (filename);
+    g_free (filename);
+  }
+
+gtk_widget_destroy (dialog);
+
+Página: https://developer.gnome.org/gtk3/stable/GtkFileChooserDialog.html
+
+
+Hay 4 FolderChooserActions:
+1) CreateFolder (crear carpeta): indica un modo para crear una nueva carpeta. El selector usará el nombre de usuario en la nueva carpeta o en la existente.
+2) Open (abrir): abrirá un archivo existente seleccionado.
+3) Save (guardar): guardará un archivo existente o un archivo nuevo del mismo tipo.
+4) SelectFolder (seleccionar carpeta): Selecciona una carpeta existente.
+Si se usa FileChooserAction.Open o FileChooserAction.Save , solo los archivos serán seleccionados.
+Si se usa FileChooserAction.SelectFolder o FileChooserAction.CreateFolder , solo las carpetas serán seleccionadas.
+
+Ejemplo:
+
+private void OpenOFD()
+{
+    Gtk.FileChooserDialog filechooser =
+        new Gtk.FileChooserDialog("Choose the file to open",
+            this,
+            FileChooserAction.Open,
+            "Cancel",ResponseType.Cancel,
+            "Open",ResponseType.Accept);
+
+    if (filechooser.Run() == (int)ResponseType.Accept) 
+    {
+        System.IO.FileStream file = System.IO.File.OpenRead(filechooser.Filename);
+        file.Close();
+    }
+
+    filechooser.Destroy();
+}
+
+Página: http://stackoverflow.com/questions/20612468/making-gtk-file-chooser-to-select-file-only

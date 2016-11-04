@@ -1,0 +1,24 @@
+Una licencia de software es un contrato entre el licenciante (autor/titular de los derechos 
+de explotación/distribuidor) y el licenciatario2 (usuario consumidor/usuario profesional o empresa) 
+del programa informático, para utilizar el software cumpliendo una serie de términos y condiciones 
+establecidas dentro de sus cláusulas,3 es decir, es un conjunto de permisos que un desarrollador le puede 
+otordar a un usuario en los que tiene la posibilidad de distribuir, usar y/o modificar el producto bajo una 
+licencia determinada.
+
+
+El código abierto es el software distribuido y desarrollado libremente. 
+Se focaliza más en los beneficios prácticos (acceso al código fuente) que en cuestiones éticas o 
+de libertad que tanto se destacan en el software libre. Para muchos el término «libre» hace referencia 
+al hecho de adquirir un software de manera gratuita, pero más que eso, la libertad se refiere al poder 
+modificar la fuente del programa sin restricciones de licencia, ya que muchas empresas de software 
+encierran su código, ocultándolo y restringiéndose los derechos a sí misma.
+
+Por ejemplo Python:
+ Es administrado por la Python Software Foundation. Posee una licencia de 
+código abierto, denominada Python Software Foundation License,1 que es compatible con
+la Licencia pública general de GNU a partir de la versión 2.1.1, e incompatible 
+en ciertas versiones anteriores.
+
+https://es.wikipedia.org/wiki/Python
+https://es.wikipedia.org/wiki/Licencia_de_software
+https://es.wikipedia.org/wiki/C%C3%B3digo_abierto
