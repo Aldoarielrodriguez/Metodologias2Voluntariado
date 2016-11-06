@@ -1,10 +1,13 @@
 import pilasengine
 
 class CodigoUsuario(pilasengine.actores.Actor):
-    def iniciar(self, contexto):
-        print("OK")
-    def incrustarSi(self,codigosAceptados, codigoIngresante):
-        for cod in codigosAceptados:
+    def iniciar(self):
+        pass
+    def esIncrustable(self,codigosAceptados, codigoIngresado):
+        for cadaCodigo in codigosAceptados:
+            if(cadaCodigo==codigoIngresado):
+                return True
+        return False
 
 
 
@@ -16,20 +19,16 @@ class IniciarPrograma(CodigoUsuario):
         self.centro=("izquierda","arriba")
         self.__macro=[]
     def incrustar(self, codigo):
-        if(type(codigo).__name__=="Condicion" or type(codigo).__name__=="DefinirMetodo" or type(codigo).__name__=="IniciarPrograma"):
-            codigo.devolverAlOrigen()
-            return False 
-        self.epa()
-        self.__macro.append(codigo)
+        if(self.esIncrustable(["BasicoPredefinido","CondicionalSi","Repetir"], type(codigo).__name__)):
+            self.__macro.append(codigo)
+            return True
+        return False
     def actualizar(self):
         contadorDeDesplazamiento=1
         for codigo in self.__macro:
             codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
             codigo.x=self.x+self.desplazamientoHorizontal
             contadorDeDesplazamiento+=1
-    def devolverAlOrigen(self):
-        self.x=200
-        self.y=200
         
 
 class BasicoPredefinido(CodigoUsuario):
@@ -40,7 +39,8 @@ class BasicoPredefinido(CodigoUsuario):
         self.centro=("izquierda","arriba")
         self.__macro=[]
     def incrustar(self, codigo):
-        self.__macro.append(codigo)
+        return False
+        #self.__macro.append(codigo)
     def actualizar(self):
         contadorDeDesplazamiento=1
         for codigo in self.__macro:
@@ -52,36 +52,32 @@ class CondicionalSi(CodigoUsuario):
     def iniciar(self):
         self.imagen=self.pilas.imagenes.cargar("images/CondicionalSi.png")
         self.desplazamientoVertical=30
-        self.desplazamientoHorizontal=-29
+        self.desplazamientoHorizontal=0
         self.centro=("izquierda","arriba")
         self.__macro=[]
+        self.__condicion=None
     def incrustar(self, codigo):
-        self.__macro.append(codigo)
+        if(self.esIncrustable(["BasicoPredefinido","CondicionalSi","Repetir"], type(codigo).__name__)):
+            self.__macro.append(codigo)
+            return True
+        if(type(codigo).__name__=="Condicion" and self.__condicion==None):
+            self.__condicion=codigo
+            return True
+            
+        return False
     def actualizar(self):
         contadorDeDesplazamiento=1
         for codigo in self.__macro:
             codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
             codigo.x=self.x+self.desplazamientoHorizontal
             contadorDeDesplazamiento+=1
+        if (str(self.__condicion)!=None):
+            self.__condicion.y=self.y-5
+            self.__condicion.x=self.x+30
+            self.__condicion.z=self.z-1
+    def getMacroLen(self):
+        return len(self.__macro)
 
-class DefinirMetodo(CodigoUsuario):
-    def iniciar(self):
-        self.imagen=self.pilas.imagenes.cargar("images/DefinirMetodo.png")
-        self.desplazamientoVertical=30
-        self.desplazamientoHorizontal=-29
-        self.centro=("izquierda","arriba")
-        self.__macro=[]
-    def incrustar(self, codigo):
-        self.__macro.append(codigo)
-    def actualizar(self):
-        contadorDeDesplazamiento=1
-        for codigo in self.__macro:
-            codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
-            codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
-    def devolverAlOrigen(self):
-        self.x=200
-        self.y=200
 
 class Condicion(CodigoUsuario):
     def iniciar(self):
@@ -89,31 +85,27 @@ class Condicion(CodigoUsuario):
         self.desplazamientoVertical=30
         self.desplazamientoHorizontal=-29
         self.centro=("izquierda","arriba")
-        self.__macro=[]
     def incrustar(self, codigo):
-        self.__macro.append(codigo)
+        return False
     def actualizar(self):
-        contadorDeDesplazamiento=1
-        for codigo in self.__macro:
-            codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
-            codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
-    def devolverAlOrigen(self):
-        self.x=200
-        self.y=200
+        pass
 
 class Repetir(CodigoUsuario):
     def iniciar(self):
         self.imagen=self.pilas.imagenes.cargar("images/Repetir.png")
         self.desplazamientoVertical=30
-        self.desplazamientoHorizontal=-29
+        self.desplazamientoHorizontal=22
         self.centro=("izquierda","arriba")
         self.__macro=[]
     def incrustar(self, codigo):
-        self.__macro.append(codigo)
+        if(self.esIncrustable(["BasicoPredefinido","CondicionalSi","Repetir"], type(codigo).__name__)):
+            self.__macro.append(codigo)
+            return True
+        return False
     def actualizar(self):
         contadorDeDesplazamiento=1
         for codigo in self.__macro:
+            val = codigo.getMacroLen()
             codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
             codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
+            contadorDeDesplazamiento+=1+val

@@ -8,6 +8,14 @@ class CodigoUsuario(pilasengine.actores.Actor):
             if(cadaCodigo==codigoIngresado):
                 return True
         return False
+    def getCantidadContenida(self):
+        cant=0
+        if(str(self.macro)!=None):
+            for x in self.macro:
+                cant+=x.getCantidadContenida()
+            cant+=len(self.macro)
+        return cant
+
 
 
 
@@ -17,73 +25,65 @@ class IniciarPrograma(CodigoUsuario):
         self.desplazamientoVertical=28
         self.desplazamientoHorizontal=20
         self.centro=("izquierda","arriba")
-        self.__macro=[]
+        self.macro=[]
     def incrustar(self, codigo):
         if(self.esIncrustable(["BasicoPredefinido","CondicionalSi","Repetir"], type(codigo).__name__)):
-            self.__macro.append(codigo)
+            self.macro.append(codigo)
             return True
-        #codigo.devolverAlOrigen()
+        return False
     def actualizar(self):
         contadorDeDesplazamiento=1
-        for codigo in self.__macro:
+        for codigo in self.macro:
             codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
             codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
-    def devolverAlOrigen(self):
-        self.x=200
-        self.y=200
+            codigo.z=self.z-1
+            contadorDeDesplazamiento+=1+codigo.getCantidadContenida()
         
 
 class BasicoPredefinido(CodigoUsuario):
     def iniciar(self):
         self.imagen=self.pilas.imagenes.cargar("images/BasicoPredefinido.png")
         self.desplazamientoVertical=30
-        self.desplazamientoHorizontal=-29
+        self.desplazamientoHorizontal=30
         self.centro=("izquierda","arriba")
-        self.__macro=[]
+        self.macro=[]
     def incrustar(self, codigo):
-        self.__macro.append(codigo)
+        return False
     def actualizar(self):
-        contadorDeDesplazamiento=1
-        for codigo in self.__macro:
-            codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
-            codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
-
+        pass
+    def getCantidadContenida(self):
+        return 0
+        
 class CondicionalSi(CodigoUsuario):
     def iniciar(self):
         self.imagen=self.pilas.imagenes.cargar("images/CondicionalSi.png")
-        self.desplazamientoVertical=30
-        self.desplazamientoHorizontal=-29
+        self.desplazamientoVertical=36
+        self.desplazamientoHorizontal=20
         self.centro=("izquierda","arriba")
-        self.__macro=[]
+        self.macro=[]
+        self.__condicion=None
     def incrustar(self, codigo):
-        self.__macro.append(codigo)
+        if(self.esIncrustable(["BasicoPredefinido","CondicionalSi","Repetir"], type(codigo).__name__)):
+            self.macro.append(codigo)
+            return True
+        print(type(codigo).__name__)
+        if(str(type(codigo).__name__)=="Condicion"):
+            self.__condicion=codigo
+            return True
+            
+        return False
     def actualizar(self):
         contadorDeDesplazamiento=1
-        for codigo in self.__macro:
+        for codigo in self.macro:
             codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
             codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
+            codigo.z=self.z-1
+            contadorDeDesplazamiento+=1+codigo.getCantidadContenida()
+        if(str(self.__condicion)!="None"):
+            self.__condicion.y=self.y-5
+            self.__condicion.x=self.x+30
+            self.__condicion.z=self.z-1
 
-class DefinirMetodo(CodigoUsuario):
-    def iniciar(self):
-        self.imagen=self.pilas.imagenes.cargar("images/DefinirMetodo.png")
-        self.desplazamientoVertical=30
-        self.desplazamientoHorizontal=-29
-        self.centro=("izquierda","arriba")
-        self.__macro=[]
-    def incrustar(self, codigo):
-        self.__macro.append(codigo)
-    def actualizar(self):
-        contadorDeDesplazamiento=1
-        for codigo in self.__macro:
-            codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
-            codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
-    def devolverAlOrigen(self):
-        self.x=200
-        self.y=200
 
 class Condicion(CodigoUsuario):
     def iniciar(self):
@@ -91,31 +91,28 @@ class Condicion(CodigoUsuario):
         self.desplazamientoVertical=30
         self.desplazamientoHorizontal=-29
         self.centro=("izquierda","arriba")
-        self.__macro=[]
     def incrustar(self, codigo):
-        self.__macro.append(codigo)
+        return False
     def actualizar(self):
-        contadorDeDesplazamiento=1
-        for codigo in self.__macro:
-            codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
-            codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
-    def devolverAlOrigen(self):
-        self.x=200
-        self.y=200
+        pass
 
 class Repetir(CodigoUsuario):
     def iniciar(self):
         self.imagen=self.pilas.imagenes.cargar("images/Repetir.png")
         self.desplazamientoVertical=30
-        self.desplazamientoHorizontal=-29
+        self.desplazamientoHorizontal=22
         self.centro=("izquierda","arriba")
-        self.__macro=[]
+        self.macro=[]
     def incrustar(self, codigo):
-        self.__macro.append(codigo)
+        if(self.esIncrustable(["BasicoPredefinido","CondicionalSi","Repetir"], type(codigo).__name__)):
+            self.macro.append(codigo)
+            return True
+        return False
     def actualizar(self):
         contadorDeDesplazamiento=1
-        for codigo in self.__macro:
+        for codigo in self.macro:
             codigo.y=self.y-self.desplazamientoVertical*contadorDeDesplazamiento
             codigo.x=self.x+self.desplazamientoHorizontal
-            contadorDeDesplazamiento+=1
+            codigo.z=self.z-1
+            contadorDeDesplazamiento+=1+codigo.getCantidadContenida()
+

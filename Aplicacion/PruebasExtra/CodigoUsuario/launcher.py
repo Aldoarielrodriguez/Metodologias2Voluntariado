@@ -35,44 +35,57 @@ contexto.agregarCodigo(varIniciarPrograma)
 varBasicoPredefinido=CodigoUsuarioEntitys.BasicoPredefinido(pilas)
 contexto.agregarCodigo(varBasicoPredefinido)
 
-varDefinirMetodo=CodigoUsuarioEntitys.DefinirMetodo(pilas)
-contexto.agregarCodigo(varDefinirMetodo)
+varBasicoPredefinido2=CodigoUsuarioEntitys.BasicoPredefinido(pilas)
+contexto.agregarCodigo(varBasicoPredefinido2)
+
+varBasicoPredefinido3=CodigoUsuarioEntitys.BasicoPredefinido(pilas)
+contexto.agregarCodigo(varBasicoPredefinido3)
+
+varBasicoPredefinido4=CodigoUsuarioEntitys.BasicoPredefinido(pilas)
+contexto.agregarCodigo(varBasicoPredefinido4)
+
+varBasicoPredefinido5=CodigoUsuarioEntitys.BasicoPredefinido(pilas)
+contexto.agregarCodigo(varBasicoPredefinido5)
+
+varBasicoPredefinido6=CodigoUsuarioEntitys.BasicoPredefinido(pilas)
+contexto.agregarCodigo(varBasicoPredefinido6)
+
+varBasicoPredefinido7=CodigoUsuarioEntitys.BasicoPredefinido(pilas)
+contexto.agregarCodigo(varBasicoPredefinido7)
+
 
 varCondicion=CodigoUsuarioEntitys.Condicion(pilas)
 contexto.agregarCodigo(varCondicion)
 
+varCondicion2=CodigoUsuarioEntitys.Condicion(pilas)
+contexto.agregarCodigo(varCondicion2)
+
+
 varCondicionalSi=CodigoUsuarioEntitys.CondicionalSi(pilas)
 contexto.agregarCodigo(varCondicionalSi)
+
+varCondicionalSi2=CodigoUsuarioEntitys.CondicionalSi(pilas)
+contexto.agregarCodigo(varCondicionalSi2)
 
 varRepetir=CodigoUsuarioEntitys.Repetir(pilas)
 contexto.agregarCodigo(varCondicionalSi)
 
-varIniciarPrograma2=CodigoUsuarioEntitys.IniciarPrograma(pilas)
-contexto.agregarCodigo(varIniciarPrograma2)
 
-#varCodigoUsuario=CodigoUsuarioEntitys.CodigoUsuario(pilas)
-#contexto.agregarCodigo(varCodigoUsuario)
 
-"""
-Iniciar programa:
-Debe soportar:
-    BasicoPredefinido
-    CondicionalSi
-    Repetir
-NO debe soportar:
-    IniciarPrograma
-    CodigoUsuario
-    DefinirMetodo
-    Condicion
-"""
+
 
 varIniciarPrograma.incrustar(varBasicoPredefinido)
-varIniciarPrograma.incrustar(varCondicionalSi)
+varIniciarPrograma.incrustar(varBasicoPredefinido2)
 varIniciarPrograma.incrustar(varRepetir)
-varIniciarPrograma.incrustar(varIniciarPrograma2)
-#varIniciarPrograma.incrustar(varCodigoUsuario)
-varIniciarPrograma.incrustar(varDefinirMetodo)
-varIniciarPrograma.incrustar(varCondicion)
+varRepetir.incrustar(varCondicionalSi)
+varCondicionalSi.incrustar(varCondicion)
+varCondicionalSi.incrustar(varBasicoPredefinido3)
+varCondicionalSi.incrustar(varBasicoPredefinido4)
+varRepetir.incrustar(varCondicionalSi2)
+varCondicionalSi2.incrustar(varCondicion2)
+varCondicionalSi2.incrustar(varBasicoPredefinido5)
+varIniciarPrograma.incrustar(varBasicoPredefinido6)
+varIniciarPrograma.incrustar(varBasicoPredefinido7)
 
 pilas.fondos.Fondo('images/background.jpg')
 pilas.ejecutar()

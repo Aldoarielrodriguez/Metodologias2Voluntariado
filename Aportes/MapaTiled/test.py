@@ -12,5 +12,4 @@ pilas.avisar("Use el teclado para mover al personaje.")
 
 maton.aprender("moversecomocoche")
 
-# Mantiene en ejecución el juego.
 pilas.ejecutar()
