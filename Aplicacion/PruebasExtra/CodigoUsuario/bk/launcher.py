@@ -7,6 +7,8 @@ contexto=CodigoUsuario.Contexto(pilas=pilas)
 varIniciarPrograma=CodigoUsuario.IniciarPrograma(pilas, contexto=contexto)
 varBasicoPredefinido=CodigoUsuario.BasicoPredefinido(pilas, contexto=contexto)
 varBasicoPredefinido2=CodigoUsuario.BasicoPredefinido(pilas, contexto=contexto)
+
+"""
 varBasicoPredefinido3=CodigoUsuario.BasicoPredefinido(pilas, contexto=contexto)
 varBasicoPredefinido4=CodigoUsuario.BasicoPredefinido(pilas, contexto=contexto)
 varBasicoPredefinido5=CodigoUsuario.BasicoPredefinido(pilas, contexto=contexto)
@@ -17,6 +19,9 @@ varCondicion2=CodigoUsuario.Condicion(pilas, contexto=contexto)
 varCondicionalSi=CodigoUsuario.CondicionalSi(pilas, contexto=contexto)
 varCondicionalSi2=CodigoUsuario.CondicionalSi(pilas, contexto=contexto)
 varRepetir=CodigoUsuario.Repetir(pilas, contexto=contexto)
+"""
+
+
 """
 varIniciarPrograma.incrustar(varBasicoPredefinido)
 varIniciarPrograma.incrustar(varBasicoPredefinido2)
@@ -31,6 +36,7 @@ varCondicionalSi2.incrustar(varBasicoPredefinido5)
 varIniciarPrograma.incrustar(varBasicoPredefinido6)
 varIniciarPrograma.incrustar(varBasicoPredefinido7)
 """
+
 
 pilas.fondos.Fondo('images/background.jpg')
 pilas.ejecutar()
